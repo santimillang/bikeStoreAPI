@@ -1,0 +1,142 @@
+
+--------------------------------ADD BIKE---------------------------------------
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-a 'Bicicleta 1' 'Bicicleta de montaña' '15-02-2020' 10 8"
+//Bike id 1 created successfully
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-a 'Bicicleta 2' 'Modelo de paseo' '15-02-2020' 12 10"
+//Bike id 2 created successfully
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-a 'Bicicleta 3' 'Bicicleta de carreras' '01-03-2020' 15 3"
+//Bike id 3 created successfully
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-a 'Bicicleta 4' 'Bicicleta de montaña 2' '01-01-2019' 10 3"
+//Invalid firstDay value
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-a 'Bicicleta 5' 'Bicicleta de carreras 2' '01-03-2020' 15 0"
+//Units invalid
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-a 'Bicicleta 6' ' ' '01-03-2020' 8 3"
+//Invalid description
+
+---------------------------------FIND BIKES BY KEYWORDS------------------------------
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-fb 'De CLeta' '15-02-2020'"
+//Id: 1 sin puntuaciones
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-fb ' ' '15-02-2020'"
+//Encuentra las 3 bicis (ERROR) (Simple arreglo en el preparedStatement comprobando el caso de words.length = 0 y date != null)
+
+
+---------------------------------RENT BIKE---------------------------------------------
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 1 'user1@udc.es' '0123456789111111' 2 '21-02-2020' '22-02-2020'"
+//Rent 1 creada 
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 2 'user1@udc.es' '0123456789111111' 3 '28-02-2020' '05-03-2020'"
+//Rent 2 creada
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 1 'user2@udc.es' '0123456789222222' 1 '20-02-2020' '22-02-2020'"
+//Rent 3 creada
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 1 'user3@udc.es' '0123456789333333' 2 '20-02-2020' '27-02-2020'"
+//Rent 4 creada
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 1 'user4@udc.es' '0123456789444444' 2 '21-02-2020' '24-02-2020'"
+//Rent 5 creada
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 1 'user5@udc.es' '0123456789555555' 2 '22-02-2020' '25-02-2020'"
+//Rent 6 creada
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 1 'user6@udc.es' '0123456789666666' 15 '01-03-2020' '10-03-2020'"
+//Not Enough Units
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 3 'user6@udc.es' '0123456789666666' 1 '20-02-2020' '25-02-2020'"
+//Not available yet
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 1 'user6@udc.es' '0123456789666666' 1 '20-02-2020' '20-03-2020'"
+//Si que lo pasa (no se por que ?) ERROR (Arreglo simple en el metodo privado CalculateDays, estaba cogiendo mal una de las fechas)
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 1 'user6@udc.es' '0123456789666666' 1 '01-11-2019' '03-11-2019'"
+//Fecha de inicio pasada
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 1 'user6@udc.es' '0123456789666666' 1 '15-02-2020' '10-02-2020'"
+//EndDate<FirstDate
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-r 9999 'user6@udc.es' '0123456789333333' 1 '15-02-2020' '20-02-2020'"
+//InstanceNotFound
+
+
+
+---------------------------UPDATE BIKE-------------------------------
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-u 1 'Bicicleta 1 bis' 'Bicicleta de montaña modificada' '10-02-2020' 9 10"
+//Success
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-u 2 'Bicicleta 2 bis' 'Bicicleta de paseo' '15-03-2020' 10 10"
+//Solo se permite atrasar la fecha
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-u 9999 'Bicicleta 7' 'Bicicleta nueva' '15-03-2020' 10 10"
+//Not Found
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-u 3 'Bicicleta 3 bis' 'Bicicleta de carreras modificada' '01-07-2020' 0 4"
+//Precio inválido (Lo pasa) ERROR (Meter un menor/igual en vez de un menor)
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-u 2 ' ' 'Bicicleta de paseo' '01-07-2020' 0 4"
+//Invalid name value
+
+
+--------------------------------PUNTUAR----------------------------------
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-p 1 4 'user1@udc.es'"
+//Rent punctuated correctly
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-p 3 4 'user1@udc.es'"
+//Wrong user
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-p 3 8 'user2@udc.es'"
+//Rent punctuated
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-p 4 9 'user3@udc.es'"
+//Rent punctuated
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-p 1 1 'user1@udc.es'"
+//AlreadyRated
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-p 2 4 'user1@udc.es'"
+//You cannot review the rent yet
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-p 9999 4 'user1@udc.es'"
+//Not found
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-p 5 6 'user4@udc.es'"
+//Rent punctuated
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-p 6 8 'user5@udc.es'"
+//Rent punctuated
+
+
+
+
+--------------------------------FIND RENT----------------------------------
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-fr 'user1@udc.es'"
+//Encuentra id 1 y 2
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.UserServiceClient" -Dexec.args="-fr 'user6@udc.es'"
+//Encuentra las que creamos antes erróneamente (Solucionado obviamente)
+
+
+--------------------------FIND BIKE------------------------------------
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-f 1"
+//OK
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikes.client.ui.AdminServiceClient" -Dexec.args="-f 9999"
+//InstanceNotFound
+
+
+
+
+
+
